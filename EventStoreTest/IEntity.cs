@@ -1,5 +1,5 @@
 ﻿using System;
-namespace EventStoreTest.Properties
+namespace EventStoreTest
 {
     public interface IEntity
     {

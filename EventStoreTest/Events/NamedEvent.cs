@@ -1,10 +1,13 @@
 ﻿using System;
 namespace EventStoreTest.Events
 {
-    public class NamedEvent
+    public class NamedEvent : Event
     {
-        public NamedEvent()
+        public string NewName { get; }
+
+        public NamedEvent(string newName)
         {
+            NewName = newName;
         }
     }
 }

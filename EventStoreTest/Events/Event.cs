@@ -1,5 +1,5 @@
 ﻿using System;
-namespace EventStoreTest
+namespace EventStoreTest.Events
 {
     public abstract class Event : Entity, IEvent
     {
