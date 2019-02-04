@@ -15,9 +15,45 @@ namespace EventStoreTest
             var wizard = LoadTestWizard(id);
             var wizardHistory = LoadWizardHistory(id);
 
+            var wizardCopy = wizard;
+
             Console.WriteLine(wizard);
             Console.WriteLine(wizardHistory);
 
+            var learnedStupor = new SpellLearnedEvent("Stupor", "Harry Potter");
+            ApplyEvent(id, learnedStupor);
+
+            LoadTestWizard(id, wizard);
+
+            Console.WriteLine(wizard);
+            Console.WriteLine(wizardCopy);
+        }
+
+        public static void ApplyEvent(Guid streamId, object @event)
+        {
+            var store = DocumentStore.For(_ =>
+            {
+                _.Connection("host=localhost;database=felixkroner;password=mypassword;username=felixkroner");
+            });
+
+            using (var session = store.OpenSession())
+            {
+                session.Events.Append(streamId, @event);
+                Console.WriteLine(@event);
+                session.SaveChanges();
+            }
+        }
+
+        public static Wizard LoadTestWizard(Guid wizardId, Wizard wizard)
+        {
+            var store = DocumentStore.For("host=localhost;database=felixkroner;password=mypassword;username=felixkroner");
+
+            using (var session = store.OpenSession())
+            {
+                wizard = session.Events.AggregateStream<Wizard>(wizardId, state:wizard);
+            }
+
+            return wizard;
         }
 
         public static Guid CreateTestWizard()

@@ -104,6 +104,7 @@
     <Compile Include="Wizard.cs" />
     <Compile Include="Events\NamedEvent.cs" />
     <Compile Include="WizardHistory.cs" />
+    <Compile Include="EventSourced.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
